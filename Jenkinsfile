@@ -7,7 +7,7 @@ pipeline {
                 fileOperations([
                     fileCopyOperation(
                         includes: "/home/mark/projects/docker-sevtech/server.zip",
-                        targetLocation: "${WORKSPACE}"
+                        targetLocation: "."
                     )
                 ]),
                 sh 'docker build -t p0rt23/sevtech:3.1.1 .'
