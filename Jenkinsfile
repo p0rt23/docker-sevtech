@@ -4,13 +4,9 @@ pipeline {
     stages {
         stage('Build') {
             steps {
-                fileOperations([
-                    fileCopyOperation(
-                        includes: "${WORKSPACE}/server.zip",
-                        targetLocation: "."
-                    )
-                ]),
-                sh 'docker build -t p0rt23/sevtech:3.1.1 .'
+                sh 'wget -O server.zip https://minecraft.curseforge.com/projects/sevtech-ages/files/2686922/download'
+                sh 'docker build -t p0rt23/sevtech:3.1.1-develop .'
+                sh 'printenv'
             }
         }
     }
