@@ -6,11 +6,11 @@ pipeline {
             steps {
                 fileOperations([
                     fileCopyOperation(
-                        includes: "/home/mark/projects/docker-sevtech/server.zip",
+                        includes: "${WORKSPACE}/server.zip",
                         targetLocation: "."
                     )
-                ])//,
-                //sh 'docker build -t p0rt23/sevtech:3.1.1 .'
+                ]),
+                sh 'docker build -t p0rt23/sevtech:3.1.1 .'
             }
         }
     }
