@@ -9,8 +9,8 @@ pipeline {
                         includes: "/home/mark/projects/docker-sevtech/server.zip",
                         targetLocation: "."
                     )
-                ]),
-                sh 'docker build -t p0rt23/sevtech:3.1.1 .'
+                ])//,
+                //sh 'docker build -t p0rt23/sevtech:3.1.1 .'
             }
         }
     }
