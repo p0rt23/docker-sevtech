@@ -20,7 +20,6 @@ pipeline {
     stages {
         stage('Build') {
             steps {
-                sh 'docker image rm 
                 sh 'curl -L -o server.zip https://minecraft.curseforge.com/projects/sevtech-ages/files/2686922/download'
                 sh "docker build --no-cache -t p0rt23/sevtech:${TAG} ."
             }
