@@ -14,12 +14,9 @@ node {
         name = 'sevtech-develop'
     }
 
-    stage('Download') {
-        sh 'curl -L -o server.zip https://minecraft.curseforge.com/projects/sevtech-ages/files/2686922/download'
-    }
-
     stage('Build') {
         checkout scm
+        sh 'curl -L -o server.zip https://minecraft.curseforge.com/projects/sevtech-ages/files/2686922/download'
         sh "docker build --no-cache -t p0rt23/sevtech:${tag} ."
     }
 
