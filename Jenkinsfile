@@ -1,8 +1,4 @@
-
-
-pipeline {
-    agent any
-
+node {
     def tag
     def port
     def name
@@ -18,24 +14,18 @@ pipeline {
         name = 'sevtech-develop'
     }
 
-    stages {
-        stage('Download') {
-            steps {
-                sh 'curl -L -o server.zip https://minecraft.curseforge.com/projects/sevtech-ages/files/2686922/download'
-            }
-        }
-        stage('Build') {
-            steps {
-                checkout scm
-                sh "docker build --no-cache -t p0rt23/sevtech:${tag} ."
-            }
-        }
-        stage('Deploy') {
-            steps {
-                sh 'docker stop sevtech'
-                sh "docker run -d --rm --name ${name} -v /home/docker/volumes/sevtech-world:/opt/sevtech/world -v /home/docker/volumes/sevtech-backups:/opt/sevtech/backups -p ${port}:25565 p0rt23/sevtech:${tag}"
-                sh 'docker image prune'
-            }
-        }
+    stage('Download') {
+        sh 'curl -L -o server.zip https://minecraft.curseforge.com/projects/sevtech-ages/files/2686922/download'
+    }
+
+    stage('Build') {
+        checkout scm
+        sh "docker build --no-cache -t p0rt23/sevtech:${tag} ."
+    }
+
+    stage('Deploy') {
+        sh 'docker stop sevtech'
+        sh "docker run -d --rm --name ${name} -v /home/docker/volumes/sevtech-world:/opt/sevtech/world -v /home/docker/volumes/sevtech-backups:/opt/sevtech/backups -p ${port}:25565 p0rt23/sevtech:${tag}"
+        sh 'docker image prune'
     }
 }
