@@ -28,7 +28,7 @@ pipeline {
         stage('Deploy') {
             steps {
                 sh 'docker stop sevtech'
-                sh "docker run -d --rm --name ${NAME} -v /home/docker/volumes/sevtech-world:/opt/sevtech/world -v /home/docker/volumes/sevtech-backups:/opt/sevtech/backups -p $PORT:25565 p0rt23/sevtech:$tag"
+                sh "docker run -d --rm --name ${NAME} -v /home/docker/volumes/sevtech-world:/opt/sevtech/world -v /home/docker/volumes/sevtech-backups:/opt/sevtech/backups -p ${PORT}:25565 p0rt23/sevtech:${TAG}"
                 sh 'docker image prune'
             }
         }
