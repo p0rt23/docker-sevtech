@@ -21,8 +21,8 @@ node {
     }
 
     stage('Deploy') {
-        sh 'docker stop sevtech'
+        sh 'docker stop ${name}'
         sh "docker run -d --rm --name ${name} -v /home/docker/volumes/sevtech-world:/opt/sevtech/world -v /home/docker/volumes/sevtech-backups:/opt/sevtech/backups -p ${port}:25565 p0rt23/sevtech:${tag}"
-        sh 'docker image prune'
+        sh 'docker image prune -a -f'
     }
 }
