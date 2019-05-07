@@ -1,33 +1,39 @@
+
+
 pipeline {
     agent any
 
-    environment {
-        script {
-            VERSION = '3.1.1'
-            if (env.BRANCH_NAME == 'master') {
-                TAG = "${VERSION}"
-                PORT = 25565
-                NAME = 'sevtech'
-            }
-            else {
-                TAG = "${VERSION}-develop"
-                PORT = 15565
-                NAME = 'sevtech-develop'
-            }
-        }
+    def tag
+    def port
+    def name
+
+    if (env.BRANCH_NAME == 'master') {
+        tag = '3.1.1'
+        port = 25565
+        name = 'sevtech'
+    }
+    else {
+        tag = '3.1.1-develop'
+        port = 15565
+        name = 'sevtech-develop'
     }
 
     stages {
-        stage('Build') {
+        stage('Download') {
             steps {
                 sh 'curl -L -o server.zip https://minecraft.curseforge.com/projects/sevtech-ages/files/2686922/download'
-                sh "docker build --no-cache -t p0rt23/sevtech:${TAG} ."
+            }
+        }
+        stage('Build') {
+            steps {
+                checkout scm
+                sh "docker build --no-cache -t p0rt23/sevtech:${tag} ."
             }
         }
         stage('Deploy') {
             steps {
                 sh 'docker stop sevtech'
-                sh "docker run -d --rm --name ${NAME} -v /home/docker/volumes/sevtech-world:/opt/sevtech/world -v /home/docker/volumes/sevtech-backups:/opt/sevtech/backups -p ${PORT}:25565 p0rt23/sevtech:${TAG}"
+                sh "docker run -d --rm --name ${name} -v /home/docker/volumes/sevtech-world:/opt/sevtech/world -v /home/docker/volumes/sevtech-backups:/opt/sevtech/backups -p ${port}:25565 p0rt23/sevtech:${tag}"
                 sh 'docker image prune'
             }
         }
