@@ -21,7 +21,7 @@ node {
     stage('Build') {
         checkout scm
         sh "curl -L -o server.zip https://minecraft.curseforge.com/projects/sevtech-ages/files/2686922/download"
-        sh "docker build --no-cache -t p0rt23/sevtech:${tag} ."
+        sh "docker build -t p0rt23/sevtech:${tag} ."
     }
 
     stage('Deploy') {
