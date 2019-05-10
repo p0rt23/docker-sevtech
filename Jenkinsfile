@@ -27,11 +27,11 @@ node {
     stage('Deploy') {
         try {
             sh "docker stop ${name}"
+            sh "docker rm ${name}"
         }
         catch (Exception e) { 
             
         }
-        sh "docker run -d --rm --name ${name} -v /home/docker/volumes/${world_volume}:/opt/sevtech/world -v /home/docker/volumes/${backups_volume}:/opt/sevtech/backups -p ${port}:25565 p0rt23/sevtech:${tag}"
-        sh "docker image prune -a -f"
+        sh "docker run -d --restart always --name ${name} -v /home/docker/volumes/${world_volume}:/opt/sevtech/world -v /home/docker/volumes/${backups_volume}:/opt/sevtech/backups -p ${port}:25565 p0rt23/sevtech:${tag}"
     }
 }
