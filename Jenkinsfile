@@ -1,18 +1,15 @@
 node {
     def tag
-    def port
     def name
 
     if (env.BRANCH_NAME == 'master') {
         tag = '3.1.1'
-        port = 25565
         name = 'sevtech'
         world_volume = 'sevtech-world'
         backups_volume = 'sevtech-backups'
     }
     else {
         tag = '3.1.1-develop'
-        port = 15565
         name = 'sevtech-develop'
         world_volume = 'sevtech-develop-world'
         backups_volume = 'sevtech-develop-backups'
@@ -32,6 +29,18 @@ node {
         catch (Exception e) { 
             
         }
-        sh "docker run -d --restart always --name ${name} -v /home/docker/volumes/${world_volume}:/opt/sevtech/world -v /home/docker/volumes/${backups_volume}:/opt/sevtech/backups -p ${port}:25565 p0rt23/sevtech:${tag}"
+        sh """
+            docker run \
+                -d \
+                --restart always \
+                --name ${name} \
+                -v /home/docker/volumes/${world_volume}:/opt/sevtech/world \
+                -v /home/docker/volumes/${backups_volume}:/opt/sevtech/backups \
+                --network='user-bridge' \
+                --label 'traefik.enable=true' \
+                --label 'traefik.docker.network=user-bridge' \
+                --label 'traefik.basic.frontend.rule=Host:${name}.beverlysmith.online' \
+                p0rt23/sevtech:${tag}
+        """
     }
 }
