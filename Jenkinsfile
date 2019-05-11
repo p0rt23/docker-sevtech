@@ -40,7 +40,7 @@ node {
                 --label 'traefik.enable=true' \
                 --label 'traefik.docker.network=user-bridge' \
                 --label 'traefik.basic.frontend.rule=Host:${name}.beverlysmith.online' \
-                --label 'traefik.frontend.entryPoints=minecraft' \
+                --label 'traefik.frontend.entryPoints=${name}' \
                 p0rt23/sevtech:${tag}
         """
     }
