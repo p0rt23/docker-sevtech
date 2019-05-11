@@ -38,7 +38,6 @@ node {
                 -v /home/docker/volumes/${backups_volume}:/opt/sevtech/backups \
                 --network='user-bridge' \
                 --label 'traefik.enable=true' \
-                --label 'traefik.port=25565' \
                 --label 'traefik.docker.network=user-bridge' \
                 --label 'traefik.basic.frontend.rule=Host:${name}.beverlysmith.online' \
                 --label 'traefik.frontend.entryPoints=minecraft' \
