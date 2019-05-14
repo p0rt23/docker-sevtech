@@ -39,7 +39,6 @@ node {
                 --name ${name} \
                 -v /home/docker/volumes/${world_volume}:/opt/sevtech/world \
                 -v /home/docker/volumes/${backups_volume}:/opt/sevtech/backups \
-                --network='user-bridge' \
                 -p ${port}:25565 \
                 p0rt23/sevtech:${tag}
         """
