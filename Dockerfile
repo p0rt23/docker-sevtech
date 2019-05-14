@@ -1,12 +1,10 @@
-FROM ubuntu:bionic
+FROM alpine
 
 ENV ZIPFILE="server.zip"
 ENV WORKING="opt/sevtech"
 WORKDIR /${WORKING}
 
-RUN apt-get update && apt-get install -y \
-    unzip \
-    openjdk-8-jre-headless
+RUN apk update && apk add openjdk8
 
 COPY ./${ZIPFILE} /var/${WORKING}/
 
