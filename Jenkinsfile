@@ -2,6 +2,7 @@ node {
     def tag
     def name
     def port
+    def restart
 
     if (env.BRANCH_NAME == 'master') {
         tag = '3.1.1'
@@ -9,6 +10,7 @@ node {
         world_volume = 'sevtech-world'
         backups_volume = 'sevtech-backups'
         port = 25570
+        restart = "always"
     }
     else {
         tag = '3.1.1-develop'
@@ -16,6 +18,7 @@ node {
         world_volume = 'sevtech-develop-world'
         backups_volume = 'sevtech-develop-backups'
         port = 25571
+        restart = "no"
     }
 
     stage('Build') {
@@ -35,7 +38,7 @@ node {
         sh """
             docker run \
                 -d \
-                --restart always \
+                --restart ${restart} \
                 --name ${name} \
                 -v /home/docker/volumes/${world_volume}:/opt/sevtech/world \
                 -v /home/docker/volumes/${backups_volume}:/opt/sevtech/backups \
